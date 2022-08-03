@@ -46,8 +46,36 @@ public class InsertAssign {
 			// System.out.println("Enter Total Marks");
 			int total = phy+chem+maths;
 			
-			System.out.println("Enter Grade");
-			String grade = sc.next();
+			//System.out.println("Enter Grade");
+			System.out.println("Your total out of 300 is "+total);
+			System.err.println();
+			float avg = total/3;
+			String grade;
+			System.out.println("Your average is "+avg);
+			System.out.println();
+			if(avg> 90)
+			{
+				grade = "A+";
+			}else if (avg <90 && avg >80) {
+				grade ="A";
+				System.out.println("Your Grade is "+grade);
+			}else if (avg <80 && avg >70) {
+				grade ="B";
+				System.out.println("Your Grade is "+grade);
+			}else if (avg <70 && avg >60) {
+				grade ="C";
+				System.out.println("Your Grade is "+grade);
+			}else if (avg <60 && avg >50) {
+				grade ="D";
+				System.out.println("Your Grade is "+grade);
+			}else if (avg <50 && avg >40) {
+				grade ="E";
+				System.out.println("Your Grade is "+grade);
+			}else {
+				grade ="F";
+				System.out.println("Your Grade is "+grade+" And you are failed");
+			}
+			// String grade = sc.next();
 			
 			pstmt.setInt(1,rno);
 			pstmt.setString(2,sname);
