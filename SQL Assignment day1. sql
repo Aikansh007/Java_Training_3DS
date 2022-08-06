@@ -1,0 +1,569 @@
+ create table Member
+    -> (
+    -> Member_Id int Primary Key,
+    -> Member_Name varchar(30),
+    -> Member_address varchar(50),
+    -> Acc_Open_Date date,
+    -> Membership_type varchar(20) Check ( Membership_type in ('Lifetime','Annual','Half Yearly','Quarterly')),
+    -> Fees_paid int,
+    -> MAx_Books_Allowed int,
+    -> Penalty_Amount int
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Books
+    -> (
+    -> Book_Noint,
+    -> Book_NameVarChar(30),
+    -> Author_nameVarchar(30),
+    -> Costint,
+    -> Categoryvarchar(20)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+Book_NameVarChar(30),
+Author_nameVarchar(30),
+Costint,
+Categoryvarchar(20)
+)' at line 3
+mysql> create table Book
+    -> (
+    -> Book_No int,
+    -> Book_Name VarChar(30),
+    -> Author_name Varchar(30),
+    -> Cost int,
+    -> Category varchar(20)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Issue
+    -> (
+    -> Lib_Issue_Id int,
+    -> Book_No int,
+    -> Member_Id int,
+    -> Issue_Date Date,
+    -> Return_date Date
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc member;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| Member_Id         | int         | NO   | PRI | NULL    |       |
+| Member_Name       | varchar(30) | YES  |     | NULL    |       |
+| Member_address    | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date     | date        | YES  |     | NULL    |       |
+| Membership_type   | varchar(20) | YES  |     | NULL    |       |
+| Fees_paid         | int         | YES  |     | NULL    |       |
+| MAx_Books_Allowed | int         | YES  |     | NULL    |       |
+| Penalty_Amount    | int         | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table member
+    -> modify
+    -> member_name varchar(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 4
+mysql> alter table member
+    -> modify
+    -> (
+    -> member_name varchar(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(
+member_name varchar(30)
+)' at line 3
+mysql> Alter table issue add(Reference Char(30));
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table issue drop column Reference;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | YES  |     | NULL    |       |
+| Book_No      | int  | YES  |     | NULL    |       |
+| Member_Id    | int  | YES  |     | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table issue rename lib_issue;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc lib_issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | YES  |     | NULL    |       |
+| Book_No      | int  | YES  |     | NULL    |       |
+| Member_Id    | int  | YES  |     | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Member values (1,'Richa Sharma','Pune','2005-12-10','Lifetime',2500,5,50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from memeber;
+ERROR 1146 (42S02): Table 'mysql.memeber' doesn't exist
+mysql> select * from member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | Member_Name  | Member_address | Acc_Open_Date | Membership_type | Fees_paid | MAx_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |      2500 |                 5 |             50 |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> insert into Member values (2,'Garima Sen','Pune',sysdate,'Annual',1000,3,Null);
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'field list'
+mysql> insert into Member values (2,'Garima Sen','Pune',sysdate(),'Annual',1000,3,Null);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from member;
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | Member_Name  | Member_address | Acc_Open_Date | Membership_type | Fees_paid | MAx_Books_Allowed | Penalty_Amount |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma | Pune           | 2005-12-10    | Lifetime        |      2500 |                 5 |             50 |
+|         2 | Garima Sen   | Pune           | 2022-08-05    | Annual          |      1000 |                 3 |           NULL |
++-----------+--------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Member values (3,'Parag Sen','Mumbai','2011-08-10','Lifetime',1500,2,50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into Member values (4,'Nitesh Karsi','Nashik','2012-01-11','Lifetime',500,3,60);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into Member values (5,'Rohit Rathod','Nagpur','2008-12-12','Lifetime',1500,4,70);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into Member values (6,'Sandip Jadhav','Mumbai','2009-07-10','Lifetime',300,5,80);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into Member values (7,'Ritika Singh','Delhi','2010-10-10','Lifetime',800,5,50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from member;
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | Member_Name   | Member_address | Acc_Open_Date | Membership_type | Fees_paid | MAx_Books_Allowed | Penalty_Amount |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma  | Pune           | 2005-12-10    | Lifetime        |      2500 |                 5 |             50 |
+|         2 | Garima Sen    | Pune           | 2022-08-05    | Annual          |      1000 |                 3 |           NULL |
+|         3 | Parag Sen     | Mumbai         | 2011-08-10    | Lifetime        |      1500 |                 2 |             50 |
+|         4 | Nitesh Karsi  | Nashik         | 2012-01-11    | Lifetime        |       500 |                 3 |             60 |
+|         5 | Rohit Rathod  | Nagpur         | 2008-12-12    | Lifetime        |      1500 |                 4 |             70 |
+|         6 | Sandip Jadhav | Mumbai         | 2009-07-10    | Lifetime        |       300 |                 5 |             80 |
+|         7 | Ritika Singh  | Delhi          | 2010-10-10    | Lifetime        |       800 |                 5 |             50 |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+mysql>  Alter Table Member
+    -> Modify Member_Name varchar(20) ;
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql>  desc Member;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| Member_Id         | int         | NO   | PRI | NULL    |       |
+| Member_Name       | varchar(20) | YES  |     | NULL    |       |
+| Member_address    | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date     | date        | YES  |     | NULL    |       |
+| Membership_type   | varchar(20) | YES  |     | NULL    |       |
+| Fees_paid         | int         | YES  |     | NULL    |       |
+| MAx_Books_Allowed | int         | YES  |     | NULL    |       |
+| Penalty_Amount    | int         | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql> insert into Member values (2,'Vinit Naik','Mumbai',sysdate(),'Annual',1000,110,25);
+ERROR 1062 (23000): Duplicate entry '2' for key 'member.PRIMARY'
+mysql> insert into Member values (8,'Vinit Naik','Mumbai',sysdate(),'Annual',1000,110,25);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> create table Member101 as select * from Member;
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> Alter table member modify (MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100), Penalty_Amount int constraint Member_PA_CK check(Penalty_Amount<=1000));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100), P' at line 1
+mysql>  select * from member;
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | Member_Name   | Member_address | Acc_Open_Date | Membership_type | Fees_paid | MAx_Books_Allowed | Penalty_Amount |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma  | Pune           | 2005-12-10    | Lifetime        |      2500 |                 5 |             50 |
+|         2 | Garima Sen    | Pune           | 2022-08-05    | Annual          |      1000 |                 3 |           NULL |
+|         3 | Parag Sen     | Mumbai         | 2011-08-10    | Lifetime        |      1500 |                 2 |             50 |
+|         4 | Nitesh Karsi  | Nashik         | 2012-01-11    | Lifetime        |       500 |                 3 |             60 |
+|         5 | Rohit Rathod  | Nagpur         | 2008-12-12    | Lifetime        |      1500 |                 4 |             70 |
+|         6 | Sandip Jadhav | Mumbai         | 2009-07-10    | Lifetime        |       300 |                 5 |             80 |
+|         7 | Ritika Singh  | Delhi          | 2010-10-10    | Lifetime        |       800 |                 5 |             50 |
+|         8 | Vinit Naik    | Mumbai         | 2022-08-05    | Annual          |      1000 |               110 |             25 |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> delete * from member where member_id=8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from member where member_id=8' at line 1
+mysql> delete * from member where Member_Id=8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from member where Member_Id=8' at line 1
+mysql> delete  from member where Member_Id=8;
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  select * from member;
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+| Member_Id | Member_Name   | Member_address | Acc_Open_Date | Membership_type | Fees_paid | MAx_Books_Allowed | Penalty_Amount |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+|         1 | Richa Sharma  | Pune           | 2005-12-10    | Lifetime        |      2500 |                 5 |             50 |
+|         2 | Garima Sen    | Pune           | 2022-08-05    | Annual          |      1000 |                 3 |           NULL |
+|         3 | Parag Sen     | Mumbai         | 2011-08-10    | Lifetime        |      1500 |                 2 |             50 |
+|         4 | Nitesh Karsi  | Nashik         | 2012-01-11    | Lifetime        |       500 |                 3 |             60 |
+|         5 | Rohit Rathod  | Nagpur         | 2008-12-12    | Lifetime        |      1500 |                 4 |             70 |
+|         6 | Sandip Jadhav | Mumbai         | 2009-07-10    | Lifetime        |       300 |                 5 |             80 |
+|         7 | Ritika Singh  | Delhi          | 2010-10-10    | Lifetime        |       800 |                 5 |             50 |
++-----------+---------------+----------------+---------------+-----------------+-----------+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> Alter table member modify (MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100))' at line 1
+mysql> Alter table member add constraint (MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(MAx_Books_Allowed  int constraint Member_MBK_CK check(MAx_Books_Allowed<100))' at line 1
+mysql> Alter table member add constraint MAx_Books_Allowed  check MAx_Books_Allowed < 100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'MAx_Books_Allowed < 100' at line 1
+mysql> Alter table member add constraint MAx_Books_Allowed  check (MAx_Books_Allowed < 100);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Alter table member add constraint Member_MBK_CK check (MAx_Books_Allowed < 100);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Alter table member add constraint Member_PA_CK check (Penalty_Amount<=1000);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> insert into Member values (8,'Vinit Naik','Mumbai',sysdate(),'Annual',1000,110,25);
+ERROR 3819 (HY000): Check constraint 'MAx_Books_Allowed' is violated.
+mysql> drop table book;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Book
+    -> (
+    -> Book_No  int constraint Books_BN_PK Primary Key,
+    -> Book_Name VarChar(30) constraint Books_BName_NN not null,
+    -> Author_name Varchar(30),
+    -> Cost  int,
+    -> Category varchar(20) constraint Books_Category_CK check(Category in ('Science' , 'Fiction' , 'Database' , 'RDBMS' , 'Others'))
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Primary Key,
+Book_Name VarChar(30) constraint Books_BName_NN not null,
+Author_na' at line 3
+mysql> create table Book
+    -> (
+    -> Book_No  int constraint Books_BN_PK check Primary Key,
+    -> Book_Name VarChar(30) constraint Books_BName_NN check not null,
+    -> Author_name Varchar(30),
+    -> Cost  int,
+    -> Category varchar(20) constraint Books_Category_CK check(Category in ('Science' , 'Fiction' , 'Database' , 'RDBMS' , 'Others'))
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Primary Key,
+Book_Name VarChar(30) constraint Books_BName_NN check not null,
+Aut' at line 3
+mysql> create table Book
+    -> (
+    -> Book_No  int constraint Books_BN_PK check Primary Key,
+    -> Book_Name VarChar(30) constraint Books_BName_NN check not null,
+    -> Author_name Varchar(30),
+    -> Cost  int,
+    -> Category varchar(20) constraint Books_Category_CK check(Category in ('Science' , 'Fiction' , 'Database' , 'RDBMS' , 'Others'))
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Primary Key,
+Book_Name VarChar(30) constraint Books_BName_NN check not null,
+Aut' at line 3
+mysql> create table Book
+    -> (
+    -> Book_No  int constraint Books_BN_PK check (Primary Key),
+    -> Book_Name VarChar(30) constraint Books_BName_NN check (not null),
+    -> Author_name Varchar(30),
+    -> Cost  int,
+    -> Category varchar(20) constraint Books_Category_CK check(Category in ('Science' , 'Fiction' , 'Database' , 'RDBMS' , 'Others'))
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Primary Key),
+Book_Name VarChar(30) constraint Books_BName_NN check (not null),
+' at line 3
+mysql> create table Book
+    -> (
+    -> Book_No  int Primary Key,
+    -> Book_Name VarChar(30) not null,
+    -> Author_name Varchar(30),
+    -> Cost  int,
+    -> Category varchar(20) constraint Books_Category_CK check(Category in ('Science' , 'Fiction' , 'Database' , 'RDBMS' , 'Others'))
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into books values (101,'Let us C','Denis Ritchie',450,'System');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into book values (101,'Let us C','Denis Ritchie',450,'System');
+ERROR 3819 (HY000): Check constraint 'Books_Category_CK' is violated.
+mysql> insert into book values (102,'Oracle - Complete Ref','Loni',550,'Database');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into book values (103,'Mastering SQL','Loni',250,'Database');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into book values (104,'PL SQL-Ref','Scott Urman',750,'Database');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table Book101 as (select * from books where 1=0);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Book101;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bookid   | int         | YES  |     | NULL    |       |
+| bookname | varchar(20) | YES  |     | NULL    |       |
+| bookcost | int         | YES  |     | NULL    |       |
+| aid      | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> drop table book101;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Book101 as (select * from book where 1=0);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> drop table book101;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Book101 as (select * from book where 1=0);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Book101;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   |     | NULL    |       |
+| Book_Name   | varchar(30) | NO   |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| Cost        | int         | YES  |     | NULL    |       |
+| Category    | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into book101 select * from book;
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from book;
++---------+-----------------------+-------------+------+----------+
+| Book_No | Book_Name             | Author_name | Cost | Category |
++---------+-----------------------+-------------+------+----------+
+|     102 | Oracle - Complete Ref | Loni        |  550 | Database |
+|     103 | Mastering SQL         | Loni        |  250 | Database |
+|     104 | PL SQL-Ref            | Scott Urman |  750 | Database |
++---------+-----------------------+-------------+------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into books values (105,'National Geographic','Adis Scott', 1000,'Science');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into book values (105,'National Geographic','Adis Scott', 1000,'Science');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from book;
++---------+-----------------------+-------------+------+----------+
+| Book_No | Book_Name             | Author_name | Cost | Category |
++---------+-----------------------+-------------+------+----------+
+|     102 | Oracle - Complete Ref | Loni        |  550 | Database |
+|     103 | Mastering SQL         | Loni        |  250 | Database |
+|     104 | PL SQL-Ref            | Scott Urman |  750 | Database |
+|     105 | National Geographic   | Adis Scott  | 1000 | Science  |
++---------+-----------------------+-------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from book;
++---------+-----------------------+-------------+------+----------+
+| Book_No | Book_Name             | Author_name | Cost | Category |
++---------+-----------------------+-------------+------+----------+
+|     102 | Oracle - Complete Ref | Loni        |  550 | Database |
+|     103 | Mastering SQL         | Loni        |  250 | Database |
+|     104 | PL SQL-Ref            | Scott Urman |  750 | Database |
+|     105 | National Geographic   | Adis Scott  | 1000 | Science  |
++---------+-----------------------+-------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> start transaction ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into book values (106,' Geographic','Adis Scott', 1000,'Science');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from book;
++---------+-----------------------+-------------+------+----------+
+| Book_No | Book_Name             | Author_name | Cost | Category |
++---------+-----------------------+-------------+------+----------+
+|     102 | Oracle - Complete Ref | Loni        |  550 | Database |
+|     103 | Mastering SQL         | Loni        |  250 | Database |
+|     104 | PL SQL-Ref            | Scott Urman |  750 | Database |
+|     105 | National Geographic   | Adis Scott  | 1000 | Science  |
+|     106 |  Geographic           | Adis Scott  | 1000 | Science  |
++---------+-----------------------+-------------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from book;
++---------+-----------------------+-------------+------+----------+
+| Book_No | Book_Name             | Author_name | Cost | Category |
++---------+-----------------------+-------------+------+----------+
+|     102 | Oracle - Complete Ref | Loni        |  550 | Database |
+|     103 | Mastering SQL         | Loni        |  250 | Database |
+|     104 | PL SQL-Ref            | Scott Urman |  750 | Database |
+|     105 | National Geographic   | Adis Scott  | 1000 | Science  |
++---------+-----------------------+-------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> update books set cost=300, category='RDBMS' where Book_No=103;
+ERROR 1054 (42S22): Unknown column 'Book_No' in 'where clause'
+mysql> update book set cost=300, category='RDBMS' where Book_No=103;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> drop table lib_issue;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Issue
+    -> (
+    -> Lib_Issue_Id int Primary Key,
+    -> Book_No int,
+    -> Constraint Issue_BookNo_FK Foreign key  (Book_No) REFERENCES books(Book_No),
+    -> Member_Id int,
+    -> Constraint Issue_MemID_FK  Foreign key (Member_Id) REFERENCES Member(Member_Id),
+    -> Issue_DateDate ,
+    -> Return_dateDate,
+    -> constraint Issue_I_R_Date_CK check(Issue_Date<Return_date)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+Return_dateDate,
+constraint Issue_I_R_Date_CK check(Issue_Date<Return_date)
+)' at line 8
+mysql> create table Issue
+    -> (
+    -> Lib_Issue_Id int Primary Key,
+    -> Book_No int,
+    -> Constraint Issue_BookNo_FK Foreign key  (Book_No) REFERENCES books(Book_No),
+    -> Member_Id int,
+    -> Constraint Issue_MemID_FK  Foreign key (Member_Id) REFERENCES Member(Member_Id),
+    -> Issue_Date Date ,
+    -> Return_date Date,
+    -> constraint Issue_I_R_Date_CK check(Issue_Date<Return_date)
+    -> );
+ERROR 3734 (HY000): Failed to add the foreign key constraint. Missing column 'Book_No' for constraint 'Issue_BookNo_FK' in the referenced table 'books'
+mysql> create table Issue
+    -> (
+    -> Lib_Issue_Id int Primary Key,
+    -> Book_No int,
+    -> Constraint Issue_BookNo_FK Foreign key  (Book_No) REFERENCES book(Book_No),
+    -> Member_Id int,
+    -> Constraint Issue_MemID_FK  Foreign key (Member_Id) REFERENCES Member(Member_Id),
+    -> Issue_Date Date ,
+    -> Return_date Date,
+    -> constraint Issue_I_R_Date_CK check(Issue_Date<Return_date)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into Issue values (7001,101,1,'2006-12-10',null);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`mysql`.`issue`, CONSTRAINT `Issue_BookNo_FK` FOREIGN KEY (`Book_No`) REFERENCES `book` (`Book_No`))
+mysql> insert into Issue values (7002,102,2,'2006-12-25','null);
+    '> insert into Issue values (7003,104,1,'2006-01-15',null);
+    '> insert into Issue values (7004,101,1,'2006-07-04',null);
+    '> insert into Issue values (7005,104,2,'2006-11-15',null);
+    '> insert into Issue values (7006,101,3,'2006-02-18',null);
+    '>
+    '> ;
+    '> ^C
+mysql> select * from Issue;
+Empty set (0.00 sec)
+
+mysql> desc Issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | NO   | PRI | NULL    |       |
+| Book_No      | int  | YES  | MUL | NULL    |       |
+| Member_Id    | int  | YES  | MUL | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Issue values (7002,102,2,'2006-12-25','null);
+    '> insert into Issue values (7003,104,1,'2006-01-15',null);
+    '> ^C
+mysql> insert into Issue values (7003,104,1,'2006-01-15',null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Issue values (7002,102,2,'2006-12-25',null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Issue values (7004,101,1,'2006-07-04',null);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`mysql`.`issue`, CONSTRAINT `Issue_BookNo_FK` FOREIGN KEY (`Book_No`) REFERENCES `book` (`Book_No`))
+mysql> insert into Issue values (7005,104,2,'2006-11-15',null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Issue;
++--------------+---------+-----------+------------+-------------+
+| Lib_Issue_Id | Book_No | Member_Id | Issue_Date | Return_date |
++--------------+---------+-----------+------------+-------------+
+|         7002 |     102 |         2 | 2006-12-25 | NULL        |
+|         7003 |     104 |         1 | 2006-01-15 | NULL        |
+|         7005 |     104 |         2 | 2006-11-15 | NULL        |
++--------------+---------+-----------+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update issue set return_date=issue_date+15 where Lib_Issue_ID=7004 or Lib_issue_ID=7005;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update member set penalty_amount=100 where member_name='Garima Sen';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint x;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
